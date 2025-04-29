@@ -1,64 +1,45 @@
-# SHA-512 Hash Function (Python Implementation)
+# SHA-512 Hash Function (Python)
 
-This project offers a comprehensive, from-scratch implementation of the SHA-512 cryptographic hash function in Python, adhering to the specifications outlined in **FIPS PUB 180-4**.
-
----
-
-## 🔍 Overview
-
-SHA-512 is a member of the SHA-2 family, producing a 512-bit hash value. It's widely used in applications requiring high security, such as digital signatures, certificate generation, and password hashing.
+A from-scratch Python implementation of the SHA-512 cryptographic hash function, following **FIPS PUB 180-4** specifications.
 
 ---
 
-## ⚙️ How SHA-512 Works
+## Overview
 
-Drawing from Aditya Anand's article, "Breaking Down: SHA-512 Algorithm," the SHA-512 algorithm operates through the following steps:
-
-### 1. **Preprocessing**
-
-- **Padding the Message**: The original message is padded to ensure its length is congruent to 896 modulo 1024. This involves appending a single '1' bit, followed by a series of '0' bits, and finally adding a 128-bit representation of the original message length.&#8203;:contentReference[oaicite:2]{index=2}
-
-- **Parsing the Message**: :contentReference[oaicite:3]{index=3}&#8203;:contentReference[oaicite:4]{index=4}
-
-### 2. **Setting Initial Hash Values**
-
-- :contentReference[oaicite:5]{index=5}&#8203;:contentReference[oaicite:6]{index=6}
-
-### 3. **Processing Message Blocks**
-
-For each 1024-bit block:
-
-- **Message Schedule (W[0..79])**: :contentReference[oaicite:7]{index=7}&#8203;:contentReference[oaicite:8]{index=8}
-
-- **Compression Function**: :contentReference[oaicite:9]{index=9}&#8203;:contentReference[oaicite:10]{index=10}
-
-  - :contentReference[oaicite:11]{index=11}&#8203;:contentReference[oaicite:12]{index=12}
-
-    - **Ch(x, y, z)**: Chooses bits from y or z, depending on x.
-
-    - **Maj(x, y, z)**: Majority function; picks the majority bit among x, y, and z.
-
-    - **Σ0(x) and Σ1(x)**: Functions involving right rotations and shifts.
-
-  - :contentReference[oaicite:13]{index=13}&#8203;:contentReference[oaicite:14]{index=14}
-
-- **Updating Hash Values**: :contentReference[oaicite:15]{index=15}&#8203;:contentReference[oaicite:16]{index=16}
-
-### 4. **Producing the Final Hash**
-
-- :contentReference[oaicite:17]{index=17}&#8203;:contentReference[oaicite:18]{index=18}
+SHA-512, part of the SHA-2 family, generates a 512-bit (64-byte) hash, used in secure applications like digital signatures and password hashing. This educational implementation demonstrates the algorithm's core steps.
 
 ---
 
-## 📁 File Structure
+## How SHA-512 Works
 
-- `main.py` – :contentReference[oaicite:19]{index=19}&#8203;:contentReference[oaicite:20]{index=20}
+SHA-512 processes an input message to produce a 512-bit hash:
+
+1. **Padding**: Append a `1` bit, `0` bits, and the 128-bit message length to make the length congruent to 896 modulo 1024.
+2. **Initialization**: Use eight 64-bit hash values (from square roots of primes 2, 3, 5, 7, 11, 13, 17, 19) and eighty round constants (from cube roots of primes 2 to 409).
+3. **Block Processing**:
+   - Divide the padded message into 1024-bit blocks.
+   - For each block, create an 80-word message schedule using bitwise operations (`σ0`, `σ1`).
+   - Run 80 rounds of compression with functions like `Ch`, `Maj`, `Σ0`, `Σ1`, updating eight working variables.
+   - Update hash values after each block.
+4. **Final Hash**: Concatenate the eight 64-bit hash values into a 128-character hexadecimal string.
+
+Details: [Breaking Down SHA-512](https://infosecwriteups.com/breaking-down-sha-512-algorithm-1fdb9cc9413a), [Explaining SHA-512](https://medium.com/@zaid960928/cryptography-explaining-sha-512-ad896365a0c1).
 
 ---
 
-## 🧪 Sample Output
+## File
+- `main.py`: Full SHA-512 implementation with test cases.
 
-For input:
+---
 
-```plaintext
-"This is the data to hash using SHA-512."
+## Prerequisites
+- Python 3.x
+- Libraries: `struct`, `binascii`, `hashlib` (for comparison)
+
+---
+
+## Usage
+1. Clone or download the repository.
+2. Run:
+   ```bash
+   python main.py
